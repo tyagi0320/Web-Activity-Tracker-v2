@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Web Activity Tracker",
+  "version": "1.0",
+  "permissions": ["tabs", "scripting"],
+  "host_permissions": [
+    "<all_urls>",
+    "http://localhost/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Track Web Activity"
+  }
+}

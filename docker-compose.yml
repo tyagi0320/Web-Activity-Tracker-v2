@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    depends_on:
+      - zookeeper
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: webuser
+      POSTGRES_PASSWORD: webpass
+      POSTGRES_DB: webtracker
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    depends_on:
+      - kafka
+    environment:
+      - KAFKA_BROKER=kafka:9092
+    ports:
+      - "3100:3000"
+
+  consumer:
+    build: ./consumer
+    depends_on:
+      - kafka
+      - postgres
+    environment:
+      - KAFKA_BROKER=kafka:9092
+      - PG_USER=webuser
+      - PG_PASSWORD=webpass
+      - PG_DB=webtracker
+      - PG_HOST=postgres
+      - PG_PORT=5432
+
+  nginx:
+    build: ./nginx
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3001:3000"
+    depends_on:
+      - postgres
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+volumes:
+  pgdata:
+  grafana-storage:
