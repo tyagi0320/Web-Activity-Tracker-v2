@@ -42,7 +42,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
       console.log("Sending event:", activity);
 
-      fetch("http://localhost/track", {
+      fetch("http://monitor.global-dev.tech/track", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(activity)

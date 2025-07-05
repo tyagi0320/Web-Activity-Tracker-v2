@@ -12,28 +12,33 @@ services:
     ports:
       - "9092:9092"
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_HEAP_OPTS: "-Xmx256M -Xms128M"
     depends_on:
       - zookeeper
 
   postgres:
     image: postgres:13
     environment:
-      POSTGRES_USER: webuser
-      POSTGRES_PASSWORD: webpass
-      POSTGRES_DB: webtracker
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_DB=${PG_DB}
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-
+      - ./consumer/init.sql:/docker-entrypoint-initdb.d/init.sql
+            
   backend:
     build: ./backend
     depends_on:
       - kafka
     environment:
-      - KAFKA_BROKER=kafka:9092
+      - KAFKA_BROKER=${KAFKA_BROKER}
     ports:
       - "3100:3000"
 
@@ -43,12 +48,12 @@ services:
       - kafka
       - postgres
     environment:
-      - KAFKA_BROKER=kafka:9092
-      - PG_USER=webuser
-      - PG_PASSWORD=webpass
-      - PG_DB=webtracker
-      - PG_HOST=postgres
-      - PG_PORT=5432
+      - KAFKA_BROKER=${KAFKA_BROKER}
+      - PG_USER=${PG_USER}
+      - PG_PASSWORD=${PG_PASSWORD}
+      - PG_DB=${PG_DB}
+      - PG_HOST=${PG_HOST}
+      - PG_PORT=${PG_PORT}
 
   nginx:
     build: ./nginx
@@ -56,6 +61,7 @@ services:
       - backend
     ports:
       - "80:80"
+      - "443:443"
 
   grafana:
     image: grafana/grafana
@@ -64,11 +70,13 @@ services:
     depends_on:
       - postgres
     environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
+      - GF_SERVER_ROOT_URL=https://track.global-dev.tech/grafana/
+      - GF_SERVER_SERVE_FROM_SUB_PATH="true"
     volumes:
       - grafana-storage:/var/lib/grafana
-
+    
 volumes:
   pgdata:
   grafana-storage:

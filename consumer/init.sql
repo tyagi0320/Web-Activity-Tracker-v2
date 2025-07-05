@@ -7,5 +7,5 @@ CREATE TABLE IF NOT EXISTS activity_logs (
   browser TEXT,
   platform TEXT,
   ip_address TEXT,
-  user_agent TEXT,
+  user_agent TEXT
 );
