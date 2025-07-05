@@ -34,3 +34,4 @@ extension.zip
 
 #secrets
 secrets/
+*.pem
