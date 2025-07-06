@@ -1,6 +1,6 @@
-# 🌐 Track-Sphere: A Dockerized Kafka Pipeline for Real-Time Web Activity Tracking
+# 🌐 Track-Sphere: A real-time web activity tracking system using Kafka, PostgreSQL, and Grafana with a secure browser extension pipeline.
 
-A full-stack, real-time Web Activity Tracking Platform that captures and visualizes user browsing behavior using a custom-built Chrome extension. 
+Track-Sphere is a full-stack, real-time Web Activity Tracking Platform that captures and visualizes user browsing behavior using a custom-built Chrome extension. 
 The project leverages a robust microservices architecture featuring Kafka for high-throughput event streaming, PostgreSQL for reliable data persistence, 
 Grafana for insightful analytics and Docker for scalable containerization — all deployed on an AWS EC2 instance with HTTPS support via NGINX reverse proxy.
 
