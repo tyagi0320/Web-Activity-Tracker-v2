@@ -1,4 +1,4 @@
-# 🌐 Web Activity Tracker
+# 🌐 EVENTHARBOR: A Dockerized Kafka Pipeline for Real-Time Web Activity Tracking
 
 A full-stack, real-time Web Activity Tracking Platform that captures and visualizes user browsing behavior using a custom-built Chrome extension. 
 The project leverages a robust microservices architecture featuring Kafka for high-throughput event streaming, PostgreSQL for reliable data persistence, 
