@@ -1,4 +1,4 @@
-# 🌐 Track-Sphere: A real-time web activity tracking system using Kafka, PostgreSQL, and Grafana with a secure browser extension pipeline.
+# 🌐 Track-Sphere: Web Activity Analytics via a Secure Chrome Extension Pipeline
 
 Track-Sphere is a full-stack, real-time Web Activity Tracking Platform that captures and visualizes user browsing behavior using a custom-built Chrome extension. 
 The project leverages a robust microservices architecture featuring Kafka for high-throughput event streaming, PostgreSQL for reliable data persistence, 
