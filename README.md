@@ -310,7 +310,7 @@ NOTE: Similarly you can have your extension installed on other web browsers as w
 ### ✅ 6. View Data in PostgreSQL
 
 ```bash
-docker exec -it webactivitytracker-postgres-1 psql -U webuser -d webtracker
+docker exec -it web-activity-tracker-postgres-1 psql -U webuser -d webtracker
 ```
 
 Run query:
