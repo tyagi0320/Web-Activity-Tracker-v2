@@ -291,7 +291,7 @@ These are mapped from the copied cert files during image build.
 ### ✅ 4. Start All Containers
 
 ```bash
-docker compose up --build -d
+docker compose up -d
 ```
 
 <br>
